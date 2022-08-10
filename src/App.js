@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useImmer } from 'use-immer';
 import Canvas from './Canvas';
+import List from './Array';
 
 // const App = () => {
 // 	const [person, setPerson] = useImmer({
@@ -160,8 +161,11 @@ import Canvas from './Canvas';
 /***Challenge 2 */
 const App = () => {
 	return (
-		<Canvas />
-	)
+		<>
+			{/* <Canvas /> */}
+			<List />
+		</>
+	);
 };
 
 export default App;
