@@ -6,6 +6,7 @@ import Canvas from './Canvas';
 import List from './Array';
 import Form from './ManagingState';
 import Messenger from './Messenger';
+import TaskApp from './TaskApp';
 
 // const App = () => {
 // 	const [person, setPerson] = useImmer({
@@ -167,7 +168,9 @@ const App = () => {
 			{/* <Canvas /> */}
 			{/* <List /> */}
 			{/* <Form /> */}
-			<Messenger />
+			{/* <Messenger />
+			 */}
+			<TaskApp />
 		</>
 	);
 };
