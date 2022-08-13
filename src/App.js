@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { useImmer } from 'use-immer';
 import Canvas from './Canvas';
 import List from './Array';
+import Form from './ManagingState';
+import Messenger from './Messenger';
 
 // const App = () => {
 // 	const [person, setPerson] = useImmer({
@@ -163,7 +165,9 @@ const App = () => {
 	return (
 		<>
 			{/* <Canvas /> */}
-			<List />
+			{/* <List /> */}
+			{/* <Form /> */}
+			<Messenger />
 		</>
 	);
 };
