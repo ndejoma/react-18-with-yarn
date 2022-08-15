@@ -7,6 +7,7 @@ import List from './Array';
 import Form from './ManagingState';
 import Messenger from './Messenger';
 import TaskApp from './TaskApp';
+import MyTaskApp from './ReducerContexts/TaskApp';
 
 // const App = () => {
 // 	const [person, setPerson] = useImmer({
@@ -170,7 +171,9 @@ const App = () => {
 			{/* <Form /> */}
 			{/* <Messenger />
 			 */}
-			<TaskApp />
+			{/* <TaskApp />
+			 */}
+			<MyTaskApp />
 		</>
 	);
 };
