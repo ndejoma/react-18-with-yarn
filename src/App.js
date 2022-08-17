@@ -1,14 +1,7 @@
 /** @format */
 
-import React, { useState } from 'react';
-import { useImmer } from 'use-immer';
-import Canvas from './Canvas';
-import List from './Array';
-import Form from './ManagingState';
-import Messenger from './Messenger';
-import TaskApp from './TaskApp';
-import MyTaskApp from './ReducerContexts/TaskApp';
-
+import { useState } from 'react';
+import { initialTravelPlan } from './places.js';
 // const App = () => {
 // 	const [person, setPerson] = useImmer({
 // 		name: 'John Maina',
@@ -162,6 +155,81 @@ import MyTaskApp from './ReducerContexts/TaskApp';
 // 	);
 // };
 
+function PlaceTree({ id, placesById, parentId, excludePlace }) {
+	const place = placesById[id]; // placesById[2] = Africa
+	const childIds = place.childIds; // [3, 4, 5, 6, 7, 8, 9]
+
+	return (
+		<>
+			<li>
+				{place.title}{' '}
+				<span>
+					<button
+						onClick={() => {
+							excludePlace(parentId, id);
+						}}>
+						Complete Visit
+					</button>
+				</span>
+			</li>{' '}
+			{/* Africa*/}
+			{childIds.length > 0 && (
+				// create a list of all African countries with their id
+				<ol>
+					{childIds.map(childId => (
+						<PlaceTree
+							parentId={id}
+							key={childId}
+							id={childId}
+							placesById={placesById}
+							excludePlace={excludePlace}
+						/>
+					))}
+				</ol>
+			)}
+		</>
+	);
+}
+function TravelPlan() {
+	const [plan, setPlan] = useState(initialTravelPlan);
+
+	const root = plan[0];
+	//countries on earth are the children
+	const planetIds = root.childIds;
+
+	//create a function to exclude place
+	const excludePlace = (placeParentId, placeId) => {
+		const parent = plan[placeParentId];
+
+		//update the parent not to include the current place completed by filtering it out from the parents childId
+		const updatedParent = {
+			...parent,
+			childIds: parent.childIds.filter(childId => childId !== placeId)
+		};
+		//upate the plan to include the new parent
+		setPlan({
+			...plan,
+			[placeParentId]: updatedParent
+		});
+	};
+	return (
+		<>
+			<h2>Places to visit</h2>
+			<ol>
+				{planetIds.map(id => (
+					<PlaceTree
+						parentId={0}
+						key={id}
+						id={id}
+						placesById={plan}
+						excludePlace={excludePlace}
+					/>
+				))}
+			</ol>
+		</>
+	);
+}
+
 /***Challenge 2 */
 const App = () => {
 	return (
@@ -173,7 +241,9 @@ const App = () => {
 			 */}
 			{/* <TaskApp />
 			 */}
-			<MyTaskApp />
+			{/* <MyTaskApp /> */}
+			{/* <Picture /> */}
+			<TravelPlan />
 		</>
 	);
 };
