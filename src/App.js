@@ -1,7 +1,7 @@
 /** @format */
-
-import { useState } from 'react';
+import { useImmer } from 'use-immer';
 import { initialTravelPlan } from './places.js';
+import MailClient from './multiple-selection/MyApp.js';
 // const App = () => {
 // 	const [person, setPerson] = useImmer({
 // 		name: 'John Maina',
@@ -191,7 +191,7 @@ function PlaceTree({ id, placesById, parentId, excludePlace }) {
 	);
 }
 function TravelPlan() {
-	const [plan, setPlan] = useState(initialTravelPlan);
+	const [plan, updatePlan] = useImmer(initialTravelPlan);
 
 	const root = plan[0];
 	//countries on earth are the children
@@ -199,17 +199,29 @@ function TravelPlan() {
 
 	//create a function to exclude place
 	const excludePlace = (placeParentId, placeId) => {
-		const parent = plan[placeParentId];
+		updatePlan(draft => {
+			const parent = draft[placeParentId];
+			parent.childIds = parent.childIds.filter(
+				childId => childId !== placeId
+			);
 
-		//update the parent not to include the current place completed by filtering it out from the parents childId
-		const updatedParent = {
-			...parent,
-			childIds: parent.childIds.filter(childId => childId !== placeId)
-		};
-		//upate the plan to include the new parent
-		setPlan({
-			...plan,
-			[placeParentId]: updatedParent
+			//create a function to delete all children who parent was delete
+			/***
+			 * If Africa was deleted all its children will be deleted
+			 * From the draft by their id which maps as the key in the draft object
+			 * delete keyword is a way to delete a property from an object
+			 * Delete the specific object from memory
+			 * It is a manual garbage collection method in JavaScript
+			 */
+			const deleteChildrenOfDeletedParent = placeIdToDelete => {
+				const placeToDelete = draft[placeIdToDelete];
+				//delete the children of the place deleted id if they exist in the draft by its id
+				placeToDelete.childIds.forEach(childId =>
+					deleteChildrenOfDeletedParent(childId)
+				);
+				delete draft[placeIdToDelete];
+			};
+			deleteChildrenOfDeletedParent(placeId);
 		});
 	};
 	return (
@@ -243,7 +255,8 @@ const App = () => {
 			 */}
 			{/* <MyTaskApp /> */}
 			{/* <Picture /> */}
-			<TravelPlan />
+			{/* <TravelPlan /> */}
+			<MailClient />
 		</>
 	);
 };
