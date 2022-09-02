@@ -2,6 +2,7 @@
 import { useImmer } from 'use-immer';
 import { initialTravelPlan } from './places.js';
 import MailClient from './multiple-selection/MyApp.js';
+import SharingState from './sharing-state/SharingState.js';
 // const App = () => {
 // 	const [person, setPerson] = useImmer({
 // 		name: 'John Maina',
@@ -256,7 +257,8 @@ const App = () => {
 			{/* <MyTaskApp /> */}
 			{/* <Picture /> */}
 			{/* <TravelPlan /> */}
-			<MailClient />
+			{/* <MailClient /> */}
+			<SharingState />
 		</>
 	);
 };
