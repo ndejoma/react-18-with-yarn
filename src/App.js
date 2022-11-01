@@ -3,6 +3,7 @@ import { useImmer } from 'use-immer';
 import { initialTravelPlan } from './places.js';
 import MailClient from './multiple-selection/MyApp.js';
 import SharingState from './sharing-state/SharingState.js';
+import CounterApp from './preserving-state/Counter.js';
 // const App = () => {
 // 	const [person, setPerson] = useImmer({
 // 		name: 'John Maina',
@@ -258,7 +259,9 @@ const App = () => {
 			{/* <Picture /> */}
 			{/* <TravelPlan /> */}
 			{/* <MailClient /> */}
-			<SharingState />
+			{/* <SharingState />
+			 */}
+			<CounterApp />
 		</>
 	);
 };
