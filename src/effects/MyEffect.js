@@ -2,6 +2,7 @@
 //@ts-check
 
 import React, { useState, useEffect } from 'react';
+import TodoList from './ChallengeOne';
 import ChatRoom from './ChatRoom';
 import Declare from './Declare';
 import List from './List';
@@ -13,7 +14,9 @@ const MyEffect = () => {
 
 	return (
 		<div className='mt-16'>
-			<List />
+			{/* <List />
+			 */}
+			<TodoList />
 		</div>
 	);
 };
