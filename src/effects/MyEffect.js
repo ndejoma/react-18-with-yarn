@@ -3,6 +3,7 @@
 
 import React, { useState, useEffect } from 'react';
 import TodoList from './ChallengeOne';
+import ChallengeTwo from './ChallengeTwo';
 import ChatRoom from './ChatRoom';
 import Declare from './Declare';
 import List from './List';
@@ -16,7 +17,9 @@ const MyEffect = () => {
 		<div className='mt-16'>
 			{/* <List />
 			 */}
-			<TodoList />
+			{/* <TodoList />
+			 */}
+			<ChallengeTwo />
 		</div>
 	);
 };
