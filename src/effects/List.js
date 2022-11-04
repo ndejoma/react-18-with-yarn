@@ -23,7 +23,7 @@ function Color({ hex, isSelected, id, setSelected }) {
 			onClick={(e) => {
 				setSelected(id);
 			}}
-			className={`max-w-md hover:opacity-80 cursor-pointer ${
+			className={`max-w-md hover:opacity-80 rounded cursor-pointer ${
 				isSelected ? 'h-48 opacity-50 border-black border-2' : 'h-20'
 			}`}
 			style={{
