@@ -7,16 +7,20 @@ let currIdx = 0;
 
 export default function useLocalStorage(key, initialValue, deferSaving = 500) {
 	//set it to be the initial value
-	const [value, setValue] = useState(() => {
+	const [ value, setValue ] = useState( () => {
+		console.log('******* I am setting state ^^^^^^^');
 		if (typeof window !== 'undefined') {
 			//get the initialValue from localStorage if window is undefined
 			const initialFromLocal = JSON.parse(
 				window.localStorage.getItem(key)
 			);
+
+			console.log(initialFromLocal, 'INITIAL LOCAL****************************');
 			//return the value from localStorage if it exists
 			return initialFromLocal;
 		} else {
 			//if server-rendered Node.js, Deno or Bun environment run this
+			console.log('The initial setter &&&&&&&&&&&&&&&@@');
 			return initialValue;
 		}
 	});
@@ -72,7 +76,7 @@ export default function useLocalStorage(key, initialValue, deferSaving = 500) {
 
 		//clean up the timer if the value changes
 		return () => {
-			console.log('The cleanup function was runs');
+			console.log('The cleanup function was run');
 			clearTimeout(timerId);
 		};
 	}, [value]);

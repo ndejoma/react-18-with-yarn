@@ -10,7 +10,7 @@ const LocalStorageMe = () => {
 
 	console.log(email, 'THe email on every render ');
 
-	//svale the localValue when it changes to localStorage
+	//save the localValue when it changes to localStorage
 	useEffect(() => {
 			let timerId = setTimeout(() => {
 				console.log('The local value was set');
