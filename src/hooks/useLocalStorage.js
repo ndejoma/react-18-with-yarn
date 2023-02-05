@@ -1,75 +1,48 @@
 /** @format */
 
-import React, { useEffect, useState } from 'react';
-
-const prevalues = [];
-let currIdx = 0;
+import { useEffect, useState } from 'react';
 
 export default function useLocalStorage(key, initialValue, deferSaving = 500) {
 	//set it to be the initial value
-	const [ value, setValue ] = useState( () => {
+	const [value, setValue] = useState(() => {
 		console.log('******* I am setting state ^^^^^^^');
 		if (typeof window !== 'undefined') {
-			//get the initialValue from localStorage if window is undefined
-			const initialFromLocal = JSON.parse(
-				window.localStorage.getItem(key)
-			);
+			try {
+				//get the initialValue from localStorage if window is defined(Client side execution)
+				const initialFromLocal = JSON.parse(
+					window.localStorage.getItem(key)
+				);
 
-			console.log(initialFromLocal, 'INITIAL LOCAL****************************');
-			//return the value from localStorage if it exists
-			return initialFromLocal;
+				console.log(
+					initialFromLocal,
+					'INITIAL LOCAL**************************** CLIENT SIDE USE STATE'
+				);
+				console.log(initialFromLocal ?? initialValue, 'Value returned');
+				//return the value from localStorage if it exists
+				return initialFromLocal ?? initialValue;
+			} catch (err) {
+				console.log(
+					initialValue,
+					'Initial on the #######client$$$$$$ side'
+				);
+				return initialValue;
+			}
 		} else {
-			//if server-rendered Node.js, Deno or Bun environment run this
-			console.log('The initial setter &&&&&&&&&&&&&&&@@');
+			//if server-rendered Node.js, Deno, Bun  or Cloudflare workers environment run this
+			console.log(
+				'The initial setter on ****SERVER*** &&&&&&&&&&&&&&&@@'
+			);
 			return initialValue;
 		}
 	});
 
-	prevalues.push({
-		id: currIdx++,
-		value
-	});
-
-	console.log('*******************');
-	console.log('&&&&& The previous value changed &&&&&&&');
-	console.log(prevalues, 'previus');
-
-	const arrLength = prevalues.length;
-
-	if (arrLength >= 2) {
-		console.log(
-			Object.is(
-				prevalues[arrLength - 1].value,
-				prevalues[arrLength - 2].value
-			)
-		);
-	}
-	console.log(prevalues[arrLength - 1], 'The last value');
-	console.log(prevalues[arrLength - 2], 'The second last');
-	console.log('*******************');
-
 	//load the value from localStorage when the component is first rendered
-	//that is added using root elememnt created using createRoor or hydrate root
-	//no need to check if window is defined becase useEffect run on the browser only
+	//that is added using root element created using createRoot or hydrate root
+	//no need to check if window is defined because useEffect run on the browser only
 
+	//save the value to local storage any time the value changes
 	useEffect(() => {
-		if (typeof window !== 'undefined') {
-			//get the value and parse if from localStorage '{"email": "nul"}'
-			//becomes {email: null}
-			const item = JSON.parse(window.localStorage.getItem(key));
-
-			//if there is an item set is as the value
-			if (item) {
-				setValue(item);
-			}
-		}
-
-		//[] only run when the componnent gets rendered on the browser
-	}, []);
-
-	//save the value to local storage any tinme the value changes
-	useEffect(() => {
-		console.log('The value change ****** now saving to local storgae');
+		console.log('The value change ****** now saving to local storage');
 		let timerId = window.setTimeout(() => {
 			window.localStorage.setItem(key, JSON.stringify(value));
 		}, deferSaving);
@@ -79,7 +52,7 @@ export default function useLocalStorage(key, initialValue, deferSaving = 500) {
 			console.log('The cleanup function was run');
 			clearTimeout(timerId);
 		};
-	}, [value]);
+	}, [value, deferSaving, key]);
 
 	return [value, setValue];
 }

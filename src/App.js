@@ -1,8 +1,7 @@
 /** @format */
 import React from 'react';
-import MyEffect from './effects/MyEffect';
-// import VideoApp from './effects/VideoPlayer';
-import './styles/main.css';
+// import EventsApp from './EventsApp';
+
 
 /***Challenge 2 */
 const App = () => {
@@ -14,11 +13,7 @@ const App = () => {
 				marginLeft: 'auto'
 			}}
 		>
-			{/* <MyEffect />
-			 */}
-			{/* <VideoApp />
-			 */}
-			<MyEffect />
+			{/* <EventsApp /> */}
 		</main>
 	);
 };
